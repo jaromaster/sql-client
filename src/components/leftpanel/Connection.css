@@ -1,0 +1,8 @@
+.ConnectionItem {
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+.ConnectionItem:hover {
+    background-color: grey;
+}
