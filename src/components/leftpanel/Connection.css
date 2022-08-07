@@ -1,8 +1,13 @@
 .ConnectionItem {
     border: 1px solid black;
     cursor: pointer;
+    display: flex;
 }
 
 .ConnectionItem:hover {
     background-color: grey;
+}
+
+.EditButton {
+    min-width: fit-content;
 }

@@ -1,0 +1,5 @@
+.ConnEditGrid {
+    display: grid;
+    gap: 3px;
+    grid-template-columns: min-content auto;
+}

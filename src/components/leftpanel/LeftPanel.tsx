@@ -1,5 +1,9 @@
-import Connection from "./Connection";
+import { useState } from "react";
+
 import "./LeftPanel.css";
+import {Connection} from "./Connection";
+import ConnectionElement from "./Connection";
+import ConnectionEdit from "./ConnectionEdit";
 
 
 // display connections on left side of window
@@ -12,6 +16,9 @@ const LeftPanel = () => {
         {name: "Connection3", database: "PasswordsDB", host: "localhost", user: "default-user", password: "root"},
     ];
 
+    
+    const [selected_connection, set_selected_connection] = useState<null | Connection>(null);
+    console.log(selected_connection)
 
     return (
         <div>
@@ -19,11 +26,15 @@ const LeftPanel = () => {
             {/* show connections */}
             <div className="ConnectionsDiv">
                 {
-                    connection_dummy.map(val => <Connection connection={val}/>)
+                    connection_dummy.map(val => <ConnectionElement connection={val} clicked={(conn: Connection)=>set_selected_connection(conn)}/>)
                 }
             </div>
 
             <button>Add Connection</button>
+            {
+                selected_connection != null &&
+                <ConnectionEdit conn_to_edit={selected_connection}/>
+            }
         </div>
     )
 }

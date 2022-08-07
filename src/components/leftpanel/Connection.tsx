@@ -1,7 +1,7 @@
 import "./Connection.css";
 
 // define fields of Connection
-interface Connection {
+export interface Connection {
     name: string
     host: string
     user: string
@@ -12,17 +12,24 @@ interface Connection {
 // define props for component
 interface PropsInterface {
     connection: Connection
+    clicked: Function
 }
 
 // selectable connection to some database
-const Connection = (props: PropsInterface) => {
+const ConnectionElement = (props: PropsInterface) => {
     const connection = props.connection;
 
     return (
-        <div className="ConnectionItem" title="Click to edit">
-            <p>{connection.name}</p>
+        <div className="ConnectionItem">
+            <div style={{width: "80%"}} onClick={e => props.clicked(connection)}>
+                <p>{connection.name}</p>
+            </div>
+
+            <div style={{display: "flex", alignItems: "center"}}>
+                <button className="EditButton">Edit</button>
+            </div>
         </div>
     )
 }
 
-export default Connection;
+export default ConnectionElement;
