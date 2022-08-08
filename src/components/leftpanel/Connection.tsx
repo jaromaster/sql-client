@@ -2,6 +2,7 @@ import "./Connection.css";
 
 // define fields of Connection
 export interface Connection {
+    id: string
     name: string
     host: string
     user: string
@@ -21,12 +22,12 @@ const ConnectionElement = (props: PropsInterface) => {
 
     return (
         <div className="ConnectionItem">
-            <div style={{width: "80%"}} onClick={e => props.clicked(connection)}>
+            <div style={{width: "80%"}} title="click to select">
                 <p>{connection.name}</p>
             </div>
 
             <div style={{display: "flex", alignItems: "center"}}>
-                <button className="EditButton">Edit</button>
+                <button className="EditButton" title="click to edit" onClick={e => props.clicked(connection)}>Edit</button>
             </div>
         </div>
     )

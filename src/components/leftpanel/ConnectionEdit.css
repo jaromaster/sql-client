@@ -2,4 +2,5 @@
     display: grid;
     gap: 3px;
     grid-template-columns: min-content auto;
+    text-align: left;
 }

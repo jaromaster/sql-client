@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Connection } from "./Connection";
 import "./ConnectionEdit.css";
 
@@ -9,7 +8,6 @@ interface Props {
 
 // allow user to add or edit connection
 const ConnectionEdit = (props: Props) => {
-
     let name: string = "";
     let host: string = "";
     let user: string = "";
@@ -18,17 +16,24 @@ const ConnectionEdit = (props: Props) => {
 
     // edit connection if not null
     if (props.conn_to_edit !== null) {
-        console.log(props.conn_to_edit.name);
         name = props.conn_to_edit.name;
         host = props.conn_to_edit.host;
         user = props.conn_to_edit.user;
         password = props.conn_to_edit.password;
         database = props.conn_to_edit.database;
     }
+
+    // edit connection
+    let dynamic_headline = <h2>Edit {name}</h2>;
+
+    if (props.conn_to_edit === null) {
+        dynamic_headline = <h2>Create connection</h2>
+    }
+
     
     return (
         <div>
-            <h2>Edit Connection</h2>
+            {dynamic_headline}
             <form className="ConnEditGrid">
                 <label>Name</label>
                 <input type="text" value={name} required></input>
