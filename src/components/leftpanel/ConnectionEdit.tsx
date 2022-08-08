@@ -24,16 +24,15 @@ const ConnectionEdit = (props: Props) => {
     }
 
     // edit connection
-    let dynamic_headline = <h2>Edit {name}</h2>;
-
+    let dynamic_headline = `Edit ${name}`;
     if (props.conn_to_edit === null) {
-        dynamic_headline = <h2>Create connection</h2>
+        dynamic_headline = "Create connection";
     }
 
     
     return (
         <div>
-            {dynamic_headline}
+            <h2>{dynamic_headline}</h2>
             <form className="ConnEditGrid">
                 <label>Name</label>
                 <input type="text" value={name} required></input>
