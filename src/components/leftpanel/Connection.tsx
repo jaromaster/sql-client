@@ -13,7 +13,8 @@ export interface Connection {
 // define props for component
 interface PropsInterface {
     connection: Connection
-    clicked: Function
+    clicked_edit: Function
+    clicked_del: Function
 }
 
 // selectable connection to some database
@@ -27,7 +28,8 @@ const ConnectionElement = (props: PropsInterface) => {
             </div>
 
             <div style={{display: "flex", alignItems: "center"}}>
-                <button className="EditButton" title="click to edit" onClick={e => props.clicked(connection)}>Edit</button>
+                <button className="EditButton" title="click to edit" onClick={e => props.clicked_edit(connection)}>Edit</button>
+                <button className="DelButton" title="click to delete" onClick={e => props.clicked_del(props.connection.id)}>-</button>
             </div>
         </div>
     )
