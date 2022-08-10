@@ -1,5 +1,12 @@
 import "./Connection.css";
 
+// supported database types
+export enum DatabaseTypes {
+    MYSQL = "MySQL",
+    POSTGRES = "PostgreSQL"
+}
+
+
 // define fields of Connection
 export interface Connection {
     id: string
@@ -7,6 +14,7 @@ export interface Connection {
     host: string
     user: string
     password: string
+    type: DatabaseTypes
     database: string
 }
 

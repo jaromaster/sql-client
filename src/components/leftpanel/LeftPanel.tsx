@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import "./LeftPanel.css";
-import {Connection} from "./Connection";
+import {Connection, DatabaseTypes} from "./Connection";
 import ConnectionElement from "./Connection";
 import ConnectionEdit from "./ConnectionEdit";
 
@@ -11,10 +11,10 @@ const LeftPanel = () => {
 
     // existing connections (persist to file)
     const connection_dummy: Connection[] = [
-        {id: "1", name: "Connection1", database: "UserDB", host: "localhost", user: "default-user", password: "secret"},
-        {id: "2", name: "Connection2", database: "PaymentsDB", host: "localhost", user: "default-user", password: "password"},
-        {id: "3", name: "Connection3", database: "PasswordsDB", host: "localhost", user: "default-user", password: "root"},
-        {id: "4", name: "Connection4", database: "ProductsDB", host: "localhost", user: "default-user", password: "somepasswd"}
+        {id: "1", name: "Connection1", database: "UserDB", host: "localhost", user: "default-user", type: DatabaseTypes.MYSQL, password: "secret"},
+        {id: "2", name: "Connection2", database: "PaymentsDB", host: "localhost", user: "default-user", type: DatabaseTypes.MYSQL, password: "password"},
+        {id: "3", name: "Connection3", database: "PasswordsDB", host: "localhost", user: "default-user", type: DatabaseTypes.POSTGRES, password: "root"},
+        {id: "4", name: "Connection4", database: "ProductsDB", host: "localhost", user: "default-user", type: DatabaseTypes.POSTGRES, password: "somepasswd"}
     ];
 
     // store user connections

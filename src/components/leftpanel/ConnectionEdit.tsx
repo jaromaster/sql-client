@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useState } from "react";
-import { Connection } from "./Connection";
+import { Connection, DatabaseTypes } from "./Connection";
 import "./ConnectionEdit.css";
 
 
@@ -14,6 +14,7 @@ const ConnectionEdit = (props: Props) => {
     let host: string = "";
     let user: string = "";
     let password: string = "";
+    let type: DatabaseTypes = DatabaseTypes.MYSQL;
     let database: string = "";
 
     // edit connection if not null
@@ -22,6 +23,7 @@ const ConnectionEdit = (props: Props) => {
         host = props.conn_to_edit.host;
         user = props.conn_to_edit.user;
         password = props.conn_to_edit.password;
+        type = props.conn_to_edit.type;
         database = props.conn_to_edit.database;
     }
 
@@ -30,6 +32,7 @@ const ConnectionEdit = (props: Props) => {
     const [input_host, set_input_host] = useState<string>(host);
     const [input_user, set_input_user] = useState<string>(user);
     const [input_password, set_input_password] = useState<string>(password);
+    const [input_type, set_input_type] = useState<DatabaseTypes>(type);
     const [input_database, set_input_database] = useState<string>(database);
 
     // set state to values from props
@@ -38,8 +41,9 @@ const ConnectionEdit = (props: Props) => {
         set_input_host(host);
         set_input_user(user);
         set_input_password(password);
+        set_input_type(type);
         set_input_database(database);
-    }, [name, host, user, password, database]);
+    }, [name, host, user, password, type, database]);
 
     // edit connection
     let dynamic_headline = `Edit ${name}`;
@@ -62,6 +66,7 @@ const ConnectionEdit = (props: Props) => {
             host: input_host,
             user: input_user,
             password: input_password,
+            type: input_type,
             database: input_database
         }
         
@@ -77,6 +82,26 @@ const ConnectionEdit = (props: Props) => {
 
                 <label>Host</label>
                 <input type="text" value={input_host} onChange={e => set_input_host(e.target.value)} required></input>
+
+                <label>Type</label>
+                <select onChange={e => {
+                    Object.values(DatabaseTypes).forEach(val => {
+                        if (val === e.target.value){
+                            set_input_type(e.target.value);
+                        }
+                    })
+                }} required>
+
+                    {
+                        // auto select correct type
+                        Object.values(DatabaseTypes).map(val => {
+                            if (val === input_type) {
+                                return <option selected>{val}</option>
+                            }
+                            return <option>{val}</option>
+                        })
+                    }
+                </select>
 
                 <label>User</label>
                 <input type="text" value={input_user} onChange={e => set_input_user(e.target.value)} required></input>
