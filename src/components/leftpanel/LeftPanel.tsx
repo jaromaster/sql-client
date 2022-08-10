@@ -83,6 +83,18 @@ const LeftPanel = () => {
         set_connections(new_connections);
     }
 
+    
+    // handle if connection is selected (connect to database, start sql editor etc.)
+    const handle_connection_clicked = (conn: Connection) => {
+        set_selected_connection(conn);
+        set_show_connection_form(false);
+
+        // connect to database
+        // open sql work sheet
+        // allow user to run queries
+        //...
+    }
+
     // toggle connection edit/add form
     const [selected_connection, set_selected_connection] = useState<null | Connection>(null); // connection to edit / new connection
     const [show_connection_form, set_show_connection_form] = useState<boolean>(false); // show form
@@ -94,7 +106,8 @@ const LeftPanel = () => {
             <div className="ConnectionsDiv">
                 {
                     connections.map((val, idx) => <ConnectionElement key={idx} connection={val} clicked_edit={(conn: Connection)=>handle_connection_edit_clicked(conn)}
-                    clicked_del={(conn_id: string)=>handle_connection_del_clicked(conn_id)}/>)
+                    clicked_del={(conn_id: string)=>handle_connection_del_clicked(conn_id)} selected={selected_connection !== null && (val.id === selected_connection.id) ? true : false}
+                    clicked={(conn: Connection)=>handle_connection_clicked(conn)}/>)
                 }
             </div>
 
