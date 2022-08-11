@@ -4,7 +4,7 @@
 }
 
 .TextInput {
-    height: 80vh;
+    height: 30vh;
     resize: vertical;
     border: 1px solid black;
     border-radius: 3px;

@@ -1,7 +1,33 @@
+import axios from "axios";
 import { MouseEvent, useState } from "react";
-import { Connection } from "../leftpanel/Connection";
+import { Connection, DatabaseTypes } from "../leftpanel/Connection";
 import OutputTable from "./OutputTable";
 import "./WorkPanel.css";
+
+// convert json to table (2d array)
+const json_to_tab_data = (json: any): string[][] => {
+    let tab_data: string[][] = [];
+
+    for (let i = 0; i < json.length; i++) {
+        const row = json[i];
+        if (i === 0) {
+            let tab_row: string[] = [];
+            for (const key in row) {
+                tab_row.push(key);
+            }
+            tab_data.push(tab_row);
+        }
+
+        let tab_row: string[] = [];
+        Object.values(row).forEach(val => {
+            tab_row.push(val as string);
+        })
+        
+        tab_data.push(tab_row);
+    }
+
+    return tab_data;
+}
 
 interface Props {
     conn: Connection | null
@@ -9,8 +35,14 @@ interface Props {
 
 // sql scripts and queries
 const WorkPanel = (props: Props) => {
+    const connector_host: string = "http://localhost:8000";
+
+
     // store sql entered by user
     const [code, set_code] = useState<string>("");
+
+    // output data (query result)
+    const [output_data, set_output_data] = useState<string[][]>([[]]);
 
     // no connection in LeftPanel selected
     if (props.conn === null) {
@@ -24,10 +56,39 @@ const WorkPanel = (props: Props) => {
 
     // execute sql
     const handle_execute = (e: MouseEvent) => {
-        console.log(code);
+        // connect to database and execute code
 
-        // connect to database and exeute code
-        // display response
+        if (props.conn === null) {
+            return;
+        }
+
+        if (props.conn.type === DatabaseTypes.MYSQL) {
+            axios.post(connector_host+"/mysql", {
+                conn: props.conn,
+                query: code.trim()
+            })
+            .then(res => {
+                const response_data = res.data;
+                let tab_data: string[][] = [];
+
+                // query results (data) as rows (select)
+                if("rows" in response_data) {
+                    tab_data = json_to_tab_data(response_data["rows"]);
+                }
+                // number of affected rows (update, delete, ...)
+                else {
+                    tab_data = [["affectedRows"], [response_data["affectedRows"]]];
+                }
+
+                // display data
+                set_output_data(tab_data);
+            })
+            .catch(err => {
+                console.log(err);
+
+                // TODO display error message
+            });
+        }
     }
 
     return (
@@ -39,7 +100,7 @@ const WorkPanel = (props: Props) => {
             </div>
             <div className="Output">
                 <h2>Results</h2>
-                <OutputTable data={[["name", "age", "salary"], ["peter", "20", "2000"], ["john", "30", "5000"], ["jackson", "50", "10000"]]}/>
+                <OutputTable data={output_data}/>
             </div>
         </div>
     )
