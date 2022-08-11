@@ -6,6 +6,8 @@
 .TextInput {
     height: 80vh;
     resize: vertical;
+    border: 1px solid black;
+    border-radius: 3px;
 }
 
 .ExecButton {
