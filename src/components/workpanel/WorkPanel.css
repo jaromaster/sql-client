@@ -1,0 +1,16 @@
+.Sheet {
+    display: flex;
+    flex-direction: column;
+}
+
+.TextInput {
+    height: 80vh;
+    resize: vertical;
+}
+
+.ExecButton {
+    align-self: flex-end;
+    width: 10%;
+    min-width: fit-content;
+    cursor: pointer;
+}

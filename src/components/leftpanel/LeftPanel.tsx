@@ -5,8 +5,12 @@ import ConnectionElement from "./Connection";
 import ConnectionEdit from "./ConnectionEdit";
 
 
+interface Props {
+    selected: Function
+}
+
 // display connections on left side of window
-const LeftPanel = () => {
+const LeftPanel = (props: Props) => {
 
     // existing connections (persist to file)
     const connection_dummy: Connection[] = [
@@ -88,9 +92,8 @@ const LeftPanel = () => {
         set_selected_connection(conn);
         set_show_connection_form(false);
 
-        // open sql work sheet
-        // allow user to run queries
-        //...
+        // send conn to WorkPanel to allow user to run sql queries using connection
+        props.selected(conn);
     }
 
     // toggle connection edit/add form
