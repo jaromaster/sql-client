@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import "./LeftPanel.css";
 import {Connection, DatabaseTypes} from "./Connection";
 import ConnectionElement from "./Connection";
@@ -89,7 +88,6 @@ const LeftPanel = () => {
         set_selected_connection(conn);
         set_show_connection_form(false);
 
-        // connect to database
         // open sql work sheet
         // allow user to run queries
         //...

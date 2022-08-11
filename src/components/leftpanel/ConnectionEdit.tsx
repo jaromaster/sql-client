@@ -90,16 +90,9 @@ const ConnectionEdit = (props: Props) => {
                             set_input_type(e.target.value);
                         }
                     })
-                }} required>
-
+                }} value={input_type} required>
                     {
-                        // auto select correct type
-                        Object.values(DatabaseTypes).map(val => {
-                            if (val === input_type) {
-                                return <option selected>{val}</option>
-                            }
-                            return <option>{val}</option>
-                        })
+                        Object.values(DatabaseTypes).map(val => <option>{val}</option>)
                     }
                 </select>
 
@@ -107,7 +100,7 @@ const ConnectionEdit = (props: Props) => {
                 <input type="text" value={input_user} onChange={e => set_input_user(e.target.value)} required></input>
 
                 <label>Password</label>
-                <input type="password" value={input_password} onChange={e => set_input_password(e.target.value)} required></input>
+                <input type="password" value={input_password} onChange={e => set_input_password(e.target.value)}></input>
 
                 <label>Database</label>
                 <input type="text" value={input_database} onChange={e => set_input_database(e.target.value)} required></input>
