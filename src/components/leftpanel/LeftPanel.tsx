@@ -72,6 +72,9 @@ const LeftPanel = (props: Props) => {
         }
         
         set_connections(new_connections);
+
+        // send conn to WorkPanel to allow user to run sql queries using connection
+        props.selected(conn);
     }
 
     // handle if delete button of connection is clicked
