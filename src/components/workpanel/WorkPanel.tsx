@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { MouseEvent, useEffect, useState } from "react";
+import { MouseEvent, useState } from "react";
 import { Connection, DatabaseTypes } from "../leftpanel/Connection";
 import OutputTable from "./OutputTable";
 import "./WorkPanel.css";
@@ -20,6 +20,10 @@ const json_to_tab_data = (json: any): string[][] => {
 
         let tab_row: string[] = [];
         Object.values(row).forEach(val => {
+            if(val === null) {
+                tab_row.push("NULL");
+                return;
+            }
             tab_row.push(val as string);
         })
         
