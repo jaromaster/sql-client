@@ -1,0 +1,10 @@
+.ConnectionsDiv {
+    display: flex;
+    flex-direction: column;
+    row-gap: 2px;
+}
+
+.AddConnButton {
+    margin-top: 2px;
+    float: right;
+}

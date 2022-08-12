@@ -1,13 +1,32 @@
 .ConnectionItem {
     border: 1px solid black;
+    border-radius: 3px;
+    min-width: fit-content;
     cursor: pointer;
     display: flex;
 }
 
-.ConnectionItem:hover {
-    background-color: grey;
+.ConnectionItemName {
+    width: 70%;
+    min-width: fit-content;
+    margin-right: 3px;
+}
+
+.ConnectionItemEdit {
+    width: 30%;
+    display: flex;
+    justify-content: right;
+    border-collapse: collapse;
 }
 
 .EditButton {
     min-width: fit-content;
+    border: none;
+    border-left: 1px solid black;
+}
+
+.DelButton {
+    min-width: fit-content;
+    border: none;
+    border-left: 1px solid black;
 }

@@ -31,28 +31,18 @@ interface PropsInterface {
 const ConnectionElement = (props: PropsInterface) => {
     const connection = props.connection;
 
+    let background_color = "";
     if (props.selected) {
-        return (
-            <div className="ConnectionItem" style={{backgroundColor: "grey"}}>
-                <div style={{width: "70%"}} title="click to select">
-                    <p>{connection.name}</p>
-                </div>
-    
-                <div style={{display: "flex", alignItems: "center"}}>
-                    <button className="EditButton" title="click to edit" onClick={e => props.clicked_edit(connection)}>Edit</button>
-                    <button className="DelButton" title="click to delete" onClick={e => props.clicked_del(props.connection.id)}>-</button>
-                </div>
-            </div>
-        )
+        background_color = "grey";
     }
 
     return (
-        <div className="ConnectionItem">
-            <div style={{width: "70%"}} title="click to select" onClick={e => props.clicked(connection)}>
+        <div className="ConnectionItem" style={{backgroundColor: background_color}}>
+            <div className="ConnectionItemName" title="click to select" onClick={e => props.clicked(connection)}>
                 <p>{connection.name}</p>
             </div>
 
-            <div style={{display: "flex", alignItems: "center"}}>
+            <div className="ConnectionItemEdit">
                 <button className="EditButton" title="click to edit" onClick={e => props.clicked_edit(connection)}>Edit</button>
                 <button className="DelButton" title="click to delete" onClick={e => props.clicked_del(props.connection.id)}>-</button>
             </div>
