@@ -1,5 +1,5 @@
-import axios from "axios";
-import { MouseEvent, useState } from "react";
+import axios, { AxiosError } from "axios";
+import { MouseEvent, useEffect, useState } from "react";
 import { Connection, DatabaseTypes } from "../leftpanel/Connection";
 import OutputTable from "./OutputTable";
 import "./WorkPanel.css";
@@ -42,7 +42,10 @@ const WorkPanel = (props: Props) => {
     const [code, set_code] = useState<string>("");
 
     // output data (query result)
-    const [output_data, set_output_data] = useState<string[][]>([[]]);
+    const [output_data, set_output_data] = useState<string[][]>([]);
+
+    // error message
+    const [error_msg, set_error_msg] = useState<string>("");
 
     // no connection in LeftPanel selected
     if (props.conn === null) {
@@ -81,15 +84,41 @@ const WorkPanel = (props: Props) => {
                 }
 
                 // display data
+                set_error_msg("");
                 set_output_data(tab_data);
             })
             .catch(err => {
-                console.log(err);
+                const axios_err: AxiosError = err;
+                set_output_data([]);
 
-                // TODO display error message
+                // display error message
+                if (axios_err.response?.status === 400) {
+                    set_error_msg(axios_err.response.data as string);
+                }
+                else if (axios_err.response?.status === 401) {
+                    set_error_msg("Invalid user or password");
+                }
+                else {
+                    set_error_msg(axios_err.message);
+                }
             });
         }
     }
+
+
+    const output_element = (
+        <div className="Output">
+            <h2>Results</h2>
+            <OutputTable data={output_data}/>
+        </div>
+    )
+
+    const err_output_element = (
+        <div className="Output">
+            <h2>Errors</h2>
+            <p>{error_msg}</p>
+        </div>
+    )
 
     return (
         <div>
@@ -98,10 +127,14 @@ const WorkPanel = (props: Props) => {
                 <textarea className="TextInput" placeholder="Enter SQL" onChange={e => set_code(e.target.value)}></textarea>
                 <button className="ExecButton" title="click to run SQL code" onClick={handle_execute}>Execute</button>
             </div>
-            <div className="Output">
-                <h2>Results</h2>
-                <OutputTable data={output_data}/>
-            </div>
+            {
+                output_data.length > 0 &&
+                output_element
+            }
+            {
+                error_msg.length > 0 &&
+                err_output_element
+            }
         </div>
     )
 }
