@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { MouseEvent, useState } from "react";
+import { KeyboardEvent, MouseEvent, useState } from "react";
 import { Connection, DatabaseTypes } from "../leftpanel/Connection";
 import OutputTable from "./OutputTable";
 import "./WorkPanel.css";
@@ -62,7 +62,7 @@ const WorkPanel = (props: Props) => {
     }
 
     // execute sql
-    const handle_execute = (e: MouseEvent) => {
+    const handle_execute = () => {
         // connect to database and execute code
 
         if (props.conn === null) {
@@ -109,6 +109,27 @@ const WorkPanel = (props: Props) => {
         }
     }
 
+    // handle tab, ctrl + enter, ...
+    const handle_special_keys = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+        // tab
+        if (e.key == "Tab") {
+            e.preventDefault();
+            const start = e.target.selectionStart;
+            const end = e.target.selectionEnd;
+
+            let copy_code = `${code}`;
+            copy_code = copy_code.substring(0, start) + "\t" + copy_code.substring(end);
+            e.target.value = copy_code;
+
+            set_code(copy_code);
+            e.target.selectionStart = e.target.selectionEnd = start + 1;
+        }
+        // ctrl + enter (execute)
+        else if (e.key == "Enter" && e.ctrlKey) {
+            handle_execute();
+        }
+    }
+
 
     const output_element = (
         <div className="Output">
@@ -128,7 +149,7 @@ const WorkPanel = (props: Props) => {
         <div>
             <h2>Worksheet ({props.conn.name})</h2>
             <div className="Sheet">
-                <textarea className="TextInput" placeholder="Enter SQL" onChange={e => set_code(e.target.value)}></textarea>
+                <textarea className="TextInput" placeholder="Enter SQL" onChange={e => set_code(e.target.value)} onKeyDown={handle_special_keys}/>
                 <button className="ExecButton" title="click to run SQL code" onClick={handle_execute}>Execute</button>
             </div>
             {
