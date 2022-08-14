@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { KeyboardEvent, MouseEvent, useState } from "react";
+import { KeyboardEvent, useState } from "react";
 import { Connection, DatabaseTypes } from "../leftpanel/Connection";
 import OutputTable from "./OutputTable";
 import "./WorkPanel.css";
@@ -107,12 +107,58 @@ const WorkPanel = (props: Props) => {
                 }
             });
         }
+        else if (props.conn.type === DatabaseTypes.POSTGRES) {
+            axios.post(connector_host+"/postgres", {
+                conn: props.conn,
+                query: code.trim()
+            })
+            .then(res => {
+                const response_data = res.data;
+                let tab_data: string[][] = [];
+
+                // query results (data) as rows (select)
+                if(response_data["rows"].length > 0) {
+                    const column_names: string[] = response_data["colNames"];
+
+                    const rows: string[][] = [];
+                    rows.push(column_names);
+                    response_data["rows"].forEach((row: string[]) => {
+                        rows.push(row);
+                    });
+
+                    tab_data = rows;
+                }
+                // number of affected rows (update, delete, ...)
+                else {
+                    tab_data = [["affectedRows"], [response_data["affectedRows"]]];
+                }
+
+                // display data
+                set_error_msg("");
+                set_output_data(tab_data);
+            })
+            .catch(err => {
+                const axios_err: AxiosError = err;
+                set_output_data([]);
+
+                // display error message
+                if (axios_err.response?.status === 400) {
+                    set_error_msg(axios_err.response.data as string);
+                }
+                else if (axios_err.response?.status === 401) {
+                    set_error_msg("Invalid user or password");
+                }
+                else {
+                    set_error_msg(axios_err.message);
+                }
+            });
+        }
     }
 
     // handle tab, ctrl + enter, ...
     const handle_special_keys = (e: KeyboardEvent<HTMLTextAreaElement>) => {
         // tab
-        if (e.key == "Tab") {
+        if (e.key === "Tab") {
             e.preventDefault();
             const start = e.target.selectionStart;
             const end = e.target.selectionEnd;
@@ -125,7 +171,7 @@ const WorkPanel = (props: Props) => {
             e.target.selectionStart = e.target.selectionEnd = start + 1;
         }
         // ctrl + enter (execute)
-        else if (e.key == "Enter" && e.ctrlKey) {
+        else if (e.key === "Enter" && e.ctrlKey) {
             handle_execute();
         }
     }
