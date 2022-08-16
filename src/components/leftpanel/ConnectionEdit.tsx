@@ -1,3 +1,4 @@
+import axios from "axios";
 import { FormEvent, useEffect, useState } from "react";
 import { Connection, DatabaseTypes } from "./Connection";
 import "./ConnectionEdit.css";
@@ -55,13 +56,16 @@ const ConnectionEdit = (props: Props) => {
     const handle_submit = (e: FormEvent) => {
         e.preventDefault();
         
-        let conn_id: string = "-1";
+        // generate random id
+        let conn_id: string = Math.floor(Math.random() * 1000000).toString();
+
         if (props.conn_to_edit !== null) {
             conn_id = props.conn_to_edit.id;
         }
 
         // create connection
-        const conn: Connection = {id: conn_id, 
+        const conn: Connection = {
+            id: conn_id, 
             name: input_name, 
             host: input_host,
             user: input_user,
@@ -69,6 +73,17 @@ const ConnectionEdit = (props: Props) => {
             type: input_type,
             database: input_database
         }
+
+        // persist connection
+        axios.put(`http://localhost:8000/connections/${conn_id}`, conn, {timeout: 2000})
+        .then(res => {
+            if (res.status !== 200) {
+                alert(res.data);
+            }
+        })
+        .catch(err => {
+            alert(err.message);
+        })
         
         props.conn_submitted(conn);
     }

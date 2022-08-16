@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./LeftPanel.css";
-import {Connection, DatabaseTypes} from "./Connection";
+import { Connection } from "./Connection";
 import ConnectionElement from "./Connection";
 import ConnectionEdit from "./ConnectionEdit";
+import axios from "axios";
 
 
 interface Props {
@@ -12,16 +13,22 @@ interface Props {
 // display connections on left side of window
 const LeftPanel = (props: Props) => {
 
-    // existing connections (persist to file)
-    const connection_dummy: Connection[] = [
-        {id: "1", name: "Connection1", database: "UserDB", host: "localhost", user: "default-user", type: DatabaseTypes.MYSQL, password: "secret"},
-        {id: "2", name: "Connection2", database: "PaymentsDB", host: "localhost", user: "default-user", type: DatabaseTypes.MYSQL, password: "password"},
-        {id: "3", name: "Connection3", database: "PasswordsDB", host: "localhost", user: "default-user", type: DatabaseTypes.POSTGRES, password: "root"},
-        {id: "4", name: "Connection4", database: "ProductsDB", host: "localhost", user: "default-user", type: DatabaseTypes.POSTGRES, password: "somepasswd"}
-    ];
-
     // store user connections
-    const [connections, set_connections] = useState<Connection[]>(connection_dummy);
+    const [connections, set_connections] = useState<Connection[]>([]);
+
+    // get existing connections from server
+    useEffect(()=> {
+        axios.get("http://localhost:8000/connections", {timeout: 2000})
+        .then(res => {
+            if (res.status === 200){
+                set_connections(res.data);
+            }
+        })
+        .catch(err => {
+            console.log(err)
+            alert("could not retrieve connections");
+        });
+    }, []);
 
     // called when connection edit button is clicked or "add connection" button clicked
     const handle_connection_edit_clicked = (conn: Connection | null) => {
@@ -45,33 +52,17 @@ const LeftPanel = (props: Props) => {
     // when connection edited or added and changes submitted
     const handle_connection_submit = (conn: Connection) => {
 
-        let new_connections = [...connections];
-
-        // handle invalid id
-        if (conn.id === "-1"){
-
-            let max_id: number = Number.MIN_VALUE;
-            for (let i = 0; i < new_connections.length; i++) {
-                max_id = Math.max(max_id, parseInt(new_connections[i].id));
+        // get all connections
+        axios.get("http://localhost:8000/connections", {timeout: 2000})
+        .then(res => {
+            if (res.status === 200){
+                set_connections(res.data);
             }
-
-            const new_id: string = (max_id+1).toString();
-            const new_conn: Connection = Object.assign({}, conn);
-            new_conn.id = new_id;
-
-            new_connections.push(new_conn);
-        }
-        else {
-            // update connection with id
-            for (let i = 0; i < new_connections.length; i++) {
-                const c = new_connections[i];
-                if (c.id === conn.id) {
-                    new_connections[i] = conn;
-                }
-            }
-        }
-        
-        set_connections(new_connections);
+        })
+        .catch(err => {
+            console.log(err)
+            alert("could not retrieve connections");
+        });
 
         // send conn to WorkPanel to allow user to run sql queries using connection
         props.selected(conn);
@@ -86,6 +77,19 @@ const LeftPanel = (props: Props) => {
                 new_connections.splice(i, 1);
             }
         }
+
+        // delete connection from server
+        axios.delete(`http://localhost:8000/connections/${conn_id}`, {timeout: 2000})
+        .then(res => {
+            if (res.status !== 200){
+                alert("could not delete connection");
+            }
+        })
+        .catch(err => {
+            console.log(err)
+            alert("could not delete connection");
+        })
+
         set_connections(new_connections);
     }
 
