@@ -57,7 +57,7 @@ const ConnectionEdit = (props: Props) => {
         e.preventDefault();
         
         // generate random id
-        let conn_id: string = Math.floor(Math.random() * 1000000).toString();
+        let conn_id: string = Math.floor(Math.random() * 1000000000).toString();
 
         if (props.conn_to_edit !== null) {
             conn_id = props.conn_to_edit.id;

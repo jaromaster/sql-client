@@ -11,8 +11,15 @@
     tab-size: 4;
 }
 
+.SaveButton {
+    float: right;
+    width: 10%;
+    min-width: fit-content;
+    cursor: pointer;
+}
+
 .ExecButton {
-    align-self: flex-end;
+    float: right;
     width: 10%;
     min-width: fit-content;
     cursor: pointer;

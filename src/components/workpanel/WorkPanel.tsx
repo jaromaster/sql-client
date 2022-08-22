@@ -35,15 +35,17 @@ const json_to_tab_data = (json: any): string[][] => {
 
 interface Props {
     conn: Connection | null
+    stored_code: string
 }
 
 // sql scripts and queries
 const WorkPanel = (props: Props) => {
     const connector_host: string = "http://localhost:8000";
 
+    console.log(props.stored_code);
 
     // store sql entered by user
-    const [code, set_code] = useState<string>("");
+    const [code, set_code] = useState<string>(props.stored_code);
 
     // output data (query result)
     const [output_data, set_output_data] = useState<string[][]>([]);
@@ -177,6 +179,20 @@ const WorkPanel = (props: Props) => {
     }
 
 
+    // store worksheet code in file
+    const handle_save = () => {
+        alert("storing code in file")
+
+        // send code to server /worksheet
+        axios.post("http://localhost:8000/worksheet", code)
+        .catch(err => {
+            const axios_err = err as AxiosError;
+            if (axios_err?.response?.status === 500) {
+                set_error_msg(axios_err.response?.data as string);
+            }
+        })
+    }
+
     const output_element = (
         <div className="Output">
             <h2>Results</h2>
@@ -195,8 +211,11 @@ const WorkPanel = (props: Props) => {
         <div>
             <h2>Worksheet ({props.conn.name})</h2>
             <div className="Sheet">
-                <textarea className="TextInput" placeholder="Enter SQL" onChange={e => set_code(e.target.value)} onKeyDown={handle_special_keys}/>
-                <button className="ExecButton" title="click to run SQL code" onClick={handle_execute}>Execute</button>
+                <textarea className="TextInput" placeholder="Enter SQL" defaultValue={props.stored_code} onChange={e => set_code(e.target.value)} onKeyDown={handle_special_keys}/>
+                <div>
+                    <button className="ExecButton" title="click to run SQL code" onClick={handle_execute}>Execute</button>
+                    <button className="SaveButton" title="click to save your code" onClick={handle_save}>Save</button>
+                </div>
             </div>
             {
                 output_data.length > 0 &&
