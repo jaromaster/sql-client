@@ -119,7 +119,7 @@ const LeftPanel = (props: Props) => {
                 }
             </div>
 
-            <button className="AddConnButton" onClick={e => handle_connection_edit_clicked(null)}>Add Connection</button><br></br>
+            <button className="AddConnButton" onClick={e => handle_connection_edit_clicked(null)} title="create new connection">Add Connection</button><br></br>
             {
                 show_connection_form &&
                 <ConnectionEdit conn_to_edit={selected_connection} conn_submitted={handle_connection_submit}/>
