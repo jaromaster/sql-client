@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { KeyboardEvent, useState } from "react";
+import { KeyboardEvent, useEffect, useState } from "react";
 import { Connection, DatabaseTypes } from "../leftpanel/Connection";
 import OutputTable from "./OutputTable";
 import "./WorkPanel.css";
@@ -42,8 +42,6 @@ interface Props {
 const WorkPanel = (props: Props) => {
     const connector_host: string = "http://localhost:8000";
 
-    console.log(props.stored_code);
-
     // store sql entered by user
     const [code, set_code] = useState<string>(props.stored_code);
 
@@ -52,6 +50,11 @@ const WorkPanel = (props: Props) => {
 
     // error message
     const [error_msg, set_error_msg] = useState<string>("");
+
+    // set code on first render
+    useEffect(()=> {
+        set_code(props.stored_code);
+    }, [props.stored_code])
 
     // no connection in LeftPanel selected
     if (props.conn === null) {
