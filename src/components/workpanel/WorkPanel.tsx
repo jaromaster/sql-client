@@ -184,7 +184,6 @@ const WorkPanel = (props: Props) => {
 
     // store worksheet code in file
     const handle_save = () => {
-        alert("storing code in file")
 
         // send code to server /worksheet
         axios.post("http://localhost:8000/worksheet", code)
