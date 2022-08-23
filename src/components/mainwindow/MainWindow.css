@@ -5,7 +5,7 @@
 
 .LeftPanel {
     overflow: auto;
-    border-right: 1px solid black;
+    border-right: 2px solid orange;
     width: 20%;
     min-width: fit-content;
     padding: 1rem;

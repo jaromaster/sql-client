@@ -203,7 +203,7 @@ const WorkPanel = (props: Props) => {
     )
 
     const err_output_element = (
-        <div className="Output">
+        <div className="OutputErr">
             <h2>Errors</h2>
             <p>{error_msg}</p>
         </div>

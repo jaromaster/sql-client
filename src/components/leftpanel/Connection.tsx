@@ -31,15 +31,15 @@ interface PropsInterface {
 const ConnectionElement = (props: PropsInterface) => {
     const connection = props.connection;
 
-    let background_color = "";
+    let color = "";
     if (props.selected) {
-        background_color = "grey";
+        color = "aquamarine";
     }
 
     return (
-        <div className="ConnectionItem" style={{backgroundColor: background_color}}>
+        <div className="ConnectionItem">
             <div className="ConnectionItemName" title="click to select" onClick={e => props.clicked(connection)}>
-                <p>{connection.name}</p>
+                <p style={{color: color}}>{connection.name}</p>
             </div>
 
             <div className="ConnectionItemEdit">

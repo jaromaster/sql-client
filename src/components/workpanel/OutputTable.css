@@ -6,11 +6,18 @@
 }
 
 .OutputTable {
-    border-collapse: collapse;
+    border-collapse: separate;
+    border: 1px solid orange;
+    border-radius: 5px;
 }
 
 .OutputTable td, .OutputTable th {
-    border: 1px solid black;
+    border: 1px solid orange;
+    border-radius: 2px;
     min-height: fit-content;
     padding: 5px;
+}
+
+.App td, .App th {
+    color: orange;
 }

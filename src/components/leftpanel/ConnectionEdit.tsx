@@ -89,7 +89,7 @@ const ConnectionEdit = (props: Props) => {
     }
 
     return (
-        <div>
+        <div style={{marginTop: "3rem"}}>
             <h2>{dynamic_headline}</h2>
             <form className="ConnEditGrid" onSubmit={e => handle_submit(e)}>
                 <label>Name</label>
@@ -121,7 +121,7 @@ const ConnectionEdit = (props: Props) => {
                 <input type="text" value={input_database} onChange={e => set_input_database(e.target.value)} required></input>
 
                 <div></div>
-                <button type="submit">Save</button>
+                <button type="submit" title="save changes">Save</button>
             </form>
         </div>
     )

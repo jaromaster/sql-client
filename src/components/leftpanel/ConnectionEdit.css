@@ -1,6 +1,37 @@
 .ConnEditGrid {
     display: grid;
     gap: 3px;
+    column-gap: 1rem;
     grid-template-columns: min-content auto;
     text-align: left;
+    border: 2px solid orange;
+    border-radius: 5px;
+    padding: 0.5rem;
+}
+
+.ConnEditGrid label {
+    color: orange;
+}
+
+.ConnEditGrid button {
+    color: orange;
+    background-color: rgb(30, 30, 30);
+    border: 2px solid orange;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.ConnEditGrid input, .ConnEditGrid select {
+    border: 2px solid orange;
+    border-radius: 5px;
+    color: orange;
+    background-color: rgb(30, 30, 30);
+}
+
+.ConnEditGrid input:focus {
+    outline: none;
+}
+
+.ConnEditGrid input::selection {
+    background-color: #ffa50020;
 }

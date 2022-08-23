@@ -6,21 +6,32 @@
 .TextInput {
     height: 30vh;
     resize: vertical;
-    border: 1px solid black;
+    border: 4px solid orange;
+    color: orange;
+    background-color: rgb(30, 30, 30);
     border-radius: 3px;
     tab-size: 4;
 }
 
-.SaveButton {
+.TextInput:focus {
+    outline: none;
+}
+
+.TextInput::selection {
+    background-color: #ffa50020;
+}
+
+.SaveButton, .ExecButton {
+    color: orange;
+    background-color: rgb(30, 30, 30);
+    border: 2px solid orange;
+    border-radius: 5px;
+    padding: 0.5rem 1rem 0.5rem 1rem;
     float: right;
-    width: 10%;
     min-width: fit-content;
     cursor: pointer;
 }
 
-.ExecButton {
-    float: right;
-    width: 10%;
-    min-width: fit-content;
-    cursor: pointer;
+.OutputErr p, .OutputErr h2 {
+    color: red;
 }

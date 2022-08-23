@@ -1,6 +1,6 @@
 .ConnectionItem {
-    border: 1px solid black;
-    border-radius: 3px;
+    border: 2px solid orange;
+    border-radius: 5px;
     min-width: fit-content;
     cursor: pointer;
     display: flex;
@@ -19,14 +19,11 @@
     border-collapse: collapse;
 }
 
-.EditButton {
+.EditButton, .DelButton {
     min-width: fit-content;
     border: none;
-    border-left: 1px solid black;
-}
-
-.DelButton {
-    min-width: fit-content;
-    border: none;
-    border-left: 1px solid black;
+    border-left: 1px solid orange;
+    color: orange;
+    background-color: rgb(30, 30, 30);
+    cursor: pointer;
 }
