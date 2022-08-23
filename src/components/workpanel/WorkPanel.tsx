@@ -40,7 +40,6 @@ interface Props {
 
 // sql scripts and queries
 const WorkPanel = (props: Props) => {
-    const connector_host: string = "http://localhost:8000";
 
     // store sql entered by user
     const [code, set_code] = useState<string>(props.stored_code);
@@ -75,7 +74,7 @@ const WorkPanel = (props: Props) => {
         }
 
         if (props.conn.type === DatabaseTypes.MYSQL) {
-            axios.post(connector_host+"/mysql", {
+            axios.post("/mysql", {
                 conn: props.conn,
                 query: code.trim()
             })
@@ -113,7 +112,7 @@ const WorkPanel = (props: Props) => {
             });
         }
         else if (props.conn.type === DatabaseTypes.POSTGRES) {
-            axios.post(connector_host+"/postgres", {
+            axios.post("/postgres", {
                 conn: props.conn,
                 query: code.trim()
             })
@@ -186,7 +185,7 @@ const WorkPanel = (props: Props) => {
     const handle_save = () => {
 
         // send code to server /worksheet
-        axios.post("http://localhost:8000/worksheet", code)
+        axios.post("/worksheet", code)
         .catch(err => {
             const axios_err = err as AxiosError;
             if (axios_err?.response?.status === 500) {

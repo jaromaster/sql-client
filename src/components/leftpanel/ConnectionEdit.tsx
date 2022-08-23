@@ -75,7 +75,7 @@ const ConnectionEdit = (props: Props) => {
         }
 
         // persist connection
-        axios.put(`http://localhost:8000/connections/${conn_id}`, conn, {timeout: 2000})
+        axios.put(`/connections/${conn_id}`, conn, {timeout: 2000})
         .then(res => {
             if (res.status !== 200) {
                 alert(res.data);

@@ -18,7 +18,7 @@ const LeftPanel = (props: Props) => {
 
     // get existing connections from server
     useEffect(()=> {
-        axios.get("http://localhost:8000/connections", {timeout: 2000})
+        axios.get("/connections", {timeout: 2000})
         .then(res => {
             if (res.status === 200){
                 set_connections(res.data);
@@ -53,7 +53,7 @@ const LeftPanel = (props: Props) => {
     const handle_connection_submit = (conn: Connection) => {
 
         // get all connections
-        axios.get("http://localhost:8000/connections", {timeout: 2000})
+        axios.get("/connections", {timeout: 2000})
         .then(res => {
             if (res.status === 200){
                 set_connections(res.data);
@@ -79,7 +79,7 @@ const LeftPanel = (props: Props) => {
         }
 
         // delete connection from server
-        axios.delete(`http://localhost:8000/connections/${conn_id}`, {timeout: 2000})
+        axios.delete(`/connections/${conn_id}`, {timeout: 2000})
         .then(res => {
             if (res.status !== 200){
                 alert("could not delete connection");

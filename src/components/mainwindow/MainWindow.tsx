@@ -13,7 +13,7 @@ const MainWindow = () => {
 
     // get worksheet code from server (from last session)
     const [code, set_code] = useState<string>("");
-    axios.get("http://localhost:8000/worksheet")
+    axios.get("/worksheet")
     .then(res => {
         set_code(res.data);
     })
